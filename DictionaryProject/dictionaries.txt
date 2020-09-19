@@ -1,0 +1,15 @@
+A	Mot
+He	Anh ay
+Use	Dung
+Cool	Mat lanh
+Trash	Rac thai
+Common	Pho bien
+Command	Dong lenh
+Hesitate	Do du, khong chac chan
+Simulator	Su mo phong
+Importance	Su quan trong
+Responsible	Co trach nhiem
+Civilization	Nen van minh
+Reposefulness	Su thanh than
+Responsibility	Trach nhiem, Bon phan
+Inscribableness	Co the khac ghi, Co the noi tiep
