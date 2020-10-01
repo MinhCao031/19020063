@@ -1,15 +1,16 @@
-A	Mot
-He	Anh ay
-Use	Dung
-Cool	Mat lanh
-Trash	Rac thai
-Common	Pho bien
-Command	Dong lenh
-Hesitate	Do du, khong chac chan
-Simulator	Su mo phong
-Importance	Su quan trong
-Responsible	Co trach nhiem
-Civilization	Nen van minh
-Reposefulness	Su thanh than
-Responsibility	Trach nhiem, Bon phan
-Inscribableness	Co the khac ghi, Co the noi tiep
+a	Mot
+he	Anh ay
+use	Dung
+cool	Mat lanh, mat, Mat, Mat, Mat, Mat, Mat, Mat
+trash	Rac thai
+common	Pho bien
+command	Dong lenh
+the end	Ket thuc
+hesitate	Do du, khong chac chan
+simulator	Su mo phong
+importance	Su quan trong
+responsible	Co trach nhiem
+civilization	Nen van minh
+reposefulness	Su thanh than
+responsibility	Trach nhiem, Bon phan
+inscribableness	Co the khac ghi, Co the noi tiep

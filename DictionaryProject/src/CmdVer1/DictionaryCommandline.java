@@ -1,45 +1,75 @@
 package CmdVer1;
 
-import static CmdVer1.Dictionary.listOfWord;
+interface DCmdLine {
+    void showAllWords();
+    void dictionaryBasic();
+    void dictionaryIntermediate();
+    void dictionaryAdvanced();
+    StringBuilder dictionarySearcher(String find);
+}
 
-public class DictionaryCommandline {
+public class DictionaryCommandline implements DCmdLine{
+    private final DictionaryManagement dictionaryManagement;
 
-    public static void showAllWords() {
-        int numOfFirstLineTabs = 3;
-        System.out.print("No\t| English");
-        for (int j = 0; j < numOfFirstLineTabs; j++) {
-            System.out.print("\t");
-        }
-        System.out.println("| Vietnamese");
-        int currentWords = listOfWord.size();
+    DictionaryCommandline() {
+        dictionaryManagement = new DictionaryManagement();
+    }
+/*
+    DictionaryCommandline(DictionaryCommandline dictionaryCommandline) {
+        this.dictionaryManagement = dictionaryCommandline.dictionaryManagement;
+    }
+*/
+    public DictionaryManagement getDictionaryManagement() {
+        return dictionaryManagement;
+    }
+
+    public void showAllWords() {
+        // English word(s): up to 40 characters.
+        System.out.printf("%-8s| %-41s| %s\n","No", "English", "Vietnamese");
+        int currentWords = dictionaryManagement.getDictionary().getSize();
         for(int i = 0; i < currentWords; i++) {
-            System.out.print( (i + 1) + "\t| " + listOfWord.get(i).getWord_target() );
-            int numOfTabs = ( 9 + numOfFirstLineTabs * 4 - listOfWord.get(i).getWord_target().length() ) / 4;
-            for (int j = 0; j < numOfTabs; j++) {
-                System.out.print("\t");
-            }
-            System.out.println("| " + listOfWord.get(i).getWord_explain());
+            System.out.printf("%-8d| %-41s| %s\n", i + 1,
+                dictionaryManagement.getDictionary().getListOfWord().get(i).getWord_target(),
+                dictionaryManagement.getDictionary().getListOfWord().get(i).getWord_explain());
         }
     }
 
-    public static void dictionaryBasic() {
-        DictionaryManagement.insertFromCommandline();
+    public void dictionaryBasic() {
+        dictionaryManagement.insertFromCommandline();
         showAllWords();
     }
 
-    public static void dictionaryIntermediate() {
-        DictionaryManagement.insertFromFile();
+    public void dictionaryIntermediate() {
+        dictionaryManagement.insertFromFile();
         showAllWords();
     }
 
-    public static void dictionaryAdvanced() {
-        DictionaryManagement.insertFromFile();
+    public void dictionaryAdvanced() {
+        dictionaryManagement.insertFromFile();
         showAllWords();
-        DictionaryManagement.dictionaryLookup();
+        dictionaryManagement.dictionaryLookup();
+    }
+
+    public StringBuilder dictionarySearcher(String find) {
+        StringBuilder ans = new StringBuilder();
+        find = find.toLowerCase();
+        for (Word word : dictionaryManagement.getDictionary().getListOfWord()) {
+            if (word.getWord_target().indexOf(find) == 0) {
+                ans.append(word.getWord_target());
+                ans.append("\t");
+            }
+        }
+        return ans;
     }
 
     public static void main(String[] args) {
         System.out.println("Progress: 2/6");
-        dictionaryIntermediate();
+        DictionaryCommandline DCml = new DictionaryCommandline();
+        DCml.getDictionaryManagement().insertFromFile();
+        DCml.getDictionaryManagement().autoAddNewWord("cOOl","Mat");
+        if (DCml.getDictionaryManagement().dictionaryExportToFile()) {
+            System.out.println("Exported successfully.");
+        }
+        DCml.showAllWords();
     }
 }
