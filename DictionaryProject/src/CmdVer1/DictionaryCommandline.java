@@ -1,24 +1,26 @@
 package CmdVer1;
 
+import java.util.Scanner;
+
 interface DCmdLine {
     void showAllWords();
     void dictionaryBasic();
     void dictionaryIntermediate();
     void dictionaryAdvanced();
-    StringBuilder dictionarySearcher(String find);
+    void dictionarySearcher(String find);
 }
 
 public class DictionaryCommandline implements DCmdLine{
     private final DictionaryManagement dictionaryManagement;
 
-    DictionaryCommandline() {
+    public DictionaryCommandline() {
         dictionaryManagement = new DictionaryManagement();
     }
-/*
+
     DictionaryCommandline(DictionaryCommandline dictionaryCommandline) {
         this.dictionaryManagement = dictionaryCommandline.dictionaryManagement;
     }
-*/
+
     public DictionaryManagement getDictionaryManagement() {
         return dictionaryManagement;
     }
@@ -50,26 +52,15 @@ public class DictionaryCommandline implements DCmdLine{
         dictionaryManagement.dictionaryLookup();
     }
 
-    public StringBuilder dictionarySearcher(String find) {
-        StringBuilder ans = new StringBuilder();
+    public void dictionarySearcher(String find) {
+        String ans = "";
         find = find.toLowerCase();
         for (Word word : dictionaryManagement.getDictionary().getListOfWord()) {
-            if (word.getWord_target().indexOf(find) == 0) {
-                ans.append(word.getWord_target());
-                ans.append("\t");
+            if (word.doesTargetHave(find)) {
+                ans = ans.concat(word.getWord_target().concat("\t"));
+                ans = ans.concat(word.getWord_explain().concat("\n"));
             }
         }
-        return ans;
-    }
-
-    public static void main(String[] args) {
-        System.out.println("Progress: 2/6");
-        DictionaryCommandline DCml = new DictionaryCommandline();
-        DCml.getDictionaryManagement().insertFromFile();
-        DCml.getDictionaryManagement().autoAddNewWord("cOOl","Mat");
-        if (DCml.getDictionaryManagement().dictionaryExportToFile()) {
-            System.out.println("Exported successfully.");
-        }
-        DCml.showAllWords();
+        System.out.println(ans);
     }
 }

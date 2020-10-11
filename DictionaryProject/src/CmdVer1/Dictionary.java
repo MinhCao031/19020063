@@ -16,11 +16,11 @@ public class Dictionary implements SmallDictionary {
     Dictionary() {
         listOfWord = new ArrayList<>(0);
     }
-/*
-    Dictionary(Dictionary dictionary) {
-        this.listOfWord = dictionary.listOfWord;
-    }
-*/
+
+//    Dictionary(Dictionary dictionary) {
+//        this.listOfWord = dictionary.listOfWord;
+//    }
+
     public ArrayList<Word> getListOfWord() {
         return listOfWord;
     }
@@ -28,8 +28,8 @@ public class Dictionary implements SmallDictionary {
     public String getStringOfWord() {
         String longString = "";
         for(Word s: listOfWord) {
-            longString += s.getWord_target().concat("\t");
-            longString += s.getWord_explain().concat("\n");
+            longString = longString.concat(s.getWord_target().concat("\t"));
+            longString = longString.concat(s.getWord_explain().concat("\n"));
         }
         return longString;
     }
@@ -45,18 +45,18 @@ public class Dictionary implements SmallDictionary {
             }
             if(s.sameExplanation(newWord)) {
                 //print
-                System.out.println("No need to add, it's already in the dictionary.");
+                //System.out.println("No need to add, it's already in the dictionary.");
                 return false;
             } else {
                 String newVie = s.getWord_explain().concat(", ".concat(newWord.getWord_explain()));
                 s.setWord_explain(newVie);
                 //print
-                System.out.println("The english word is available, so we update that word's explanation.");
+                //System.out.println("The english word is available, so we update that word's explanation.");
                 return true;
             }
         }
         //print
-        System.out.println("New word added successfully.");
+        //System.out.println("New word added successfully.");
         listOfWord.add(newWord);
         return true;
     }

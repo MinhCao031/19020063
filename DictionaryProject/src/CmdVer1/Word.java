@@ -33,6 +33,44 @@ public class Word {
         return another.word_explain.equalsIgnoreCase(this.word_explain);
     }
 
+    /**
+     * Change int n to char, if it's a Vietnamese letter, return true.
+     * Else (most case), return false.
+     */
+    private boolean isVieLetter(int n) {
+        if (n > 64 && n < 91) return true;
+        if (n > 96 && n < 123) return true;
+        if (n > 191 && n < 433) return true;
+        return n > 7839 && n < 7930;
+    }
+
+    public boolean doesTargetHave(String eng) {
+        if(eng.equalsIgnoreCase(word_target)) return true;
+
+        eng = eng.toLowerCase();
+        word_target = word_target.toLowerCase();
+        int Pos = word_target.indexOf(eng);
+        if(Pos < 0) return false;
+
+        int n = eng.length();
+        do {
+            int left = Pos - 1;
+            int right = Pos + n;
+            //System.out.println(Pos + " " + left + " " + right);
+
+            if (left < 0 || !isVieLetter(word_target.charAt(left)))
+                if (right >= word_target.length() || !isVieLetter(word_target.charAt(right))) {
+                    //System.out.print(Pos + "\n");
+                    return true;
+                }
+            Pos = word_target.indexOf(eng, Pos + 1);
+        } while (Pos > -1);
+        //System.out.print(Pos + "\n");
+        return false;
+    }
+
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

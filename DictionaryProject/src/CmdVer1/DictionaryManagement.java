@@ -11,12 +11,9 @@ interface DictionaryMng0 {
     void insertFromCommandline();
     void insertFromFile();
     void dictionaryLookup();
-    boolean addNewWord();
-    boolean autoAddNewWord(String newWordTarget, String newWordExplain);
-    boolean replaceAWord();
-    boolean autoReplaceAWord(String oldWordTarget, String newWordTarget, String newWordExplain);
-    boolean deleteAWord();
-    boolean autoDeleteAWord(String wordTargetToDelete);
+    void addNewWord();
+    void replaceAWord();
+    void deleteAWord();
     boolean dictionaryExportToFile();
 }
 
@@ -71,108 +68,120 @@ public class DictionaryManagement implements DictionaryMng0 {
     }
 
     public void dictionaryLookup() {
-        //print
-        System.out.println("Insert English Word(s) here.");
-        Scanner inp = new Scanner(System.in);
-        String wordTarget = inp.nextLine();
-        for (Word word : dictionary.getListOfWord()) {
-            if (wordTarget.equalsIgnoreCase(word.getWord_target())) {
-                //print
-                System.out.println(word.getWord_explain());
-                return;
-            }
-        }
-        //print
-        System.out.println("Error: Can not be found in dictionaries.txt, or the file has never been read");
-    }
-
-    public boolean addNewWord() {
-        Scanner inp = new Scanner(System.in);
-        //print
-        System.out.println("Insert English word you want to add, then Enter.");
-        String newEng = inp.nextLine();
-        System.out.println("Insert Explain here, then Enter.");
-        String newVie = inp.nextLine();
-        return dictionary.add(new Word(newEng, newVie));
-    }
-
-    public boolean autoAddNewWord(String newWordTarget, String newWordExplain) {
-        Word newWord = new Word(newWordTarget.toLowerCase(), newWordExplain);
-        return dictionary.add(newWord);
-    }
-
-    public boolean replaceAWord() {
-        Scanner inp = new Scanner(System.in);
-        //print
-        System.out.println("Insert English word you want to change, then Enter.");
-        String oldEng = inp.nextLine();
-        System.out.println("New English word here, then Enter.");
-        String newEng = inp.nextLine();
-        System.out.println("New Explain here, then Enter.");
-        String newVie = inp.nextLine();
-        for (Word s : dictionary.getListOfWord()) {
-            if (oldEng.equalsIgnoreCase(s.getWord_target())) {
-                s.setWord_target(newEng.toLowerCase());
-                s.setWord_explain(newVie);
-                //print
-                System.out.println("Replace successfully.");
-                return true;
-            }
-        }
-        //print
-        System.out.println("Replace failed. The word you want to change doesn't exist.");
-        return false;
-    }
-
-    public boolean autoReplaceAWord(String oldWordTarget, String newWordTarget, String newWordExplain) {
-        for (Word s : dictionary.getListOfWord()) {
-            if (oldWordTarget.equalsIgnoreCase(s.getWord_target())) {
-                s.setWord_target(newWordTarget.toLowerCase());
-                s.setWord_explain(newWordExplain);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean deleteAWord() {
-        Scanner inp = new Scanner(System.in);
-        //print
-        System.out.println("Insert English word you want to delete, then Enter.");
-        String wordToDelete = inp.nextLine();
-        for (Word s : dictionary.getListOfWord()) {
-            if (wordToDelete.equalsIgnoreCase(s.getWord_target())) {
-                if (dictionary.remove(s)) {
-                    //print
-                    System.out.println("Delete successfully.");
-                    return true;
-                } else {
-                    //print
-                    System.out.println("Error: Unable to delete.");
-                    return false;
+        try {
+            System.out.println("Insert a number of English words you want to search, then Enter.");
+            Scanner inp = new Scanner(System.in);
+            int numOfEng = inp.nextInt();
+            for (int i = 0; i < numOfEng; ++i) {
+                boolean continued = false;
+                System.out.println("Insert English Word(s) here.");
+                String wordTarget = inp.nextLine();
+                for (Word word : dictionary.getListOfWord()) {
+                    if (wordTarget.equalsIgnoreCase(word.getWord_target())) {
+                        System.out.println(word.getWord_explain());
+                        continued = true;
+                        break;
+                    } // to be continued
                 }
+                if(continued) continue;
+                System.out.println("Error: Can not be found in dictionaries.txt, or the file has never been read");
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        //print
-        System.out.println("Delete failed. It's already not existed.");
-        return true;
+
     }
 
-    public boolean autoDeleteAWord(String wordTargetToDelete) {
-        for (Word s : dictionary.getListOfWord()) {
-            if (wordTargetToDelete.equalsIgnoreCase(s.getWord_target())) {
-                return dictionary.remove(s);
+    public void addNewWord(){
+        try {
+            System.out.println("Insert a number of English words you want to add, then Enter.");
+            Scanner inp = new Scanner(System.in);
+            int numOfEng = inp.nextInt();
+            for (int i = 0; i < numOfEng; ++i) {
+                System.out.println("Insert English word you want to add, then Enter.");
+                String newEng = inp.nextLine();
+                System.out.println("Insert Explain here, then Enter.");
+                String newVie = inp.nextLine();
+                boolean answer = dictionary.add(new Word(newEng, newVie));
+                if (answer) System.out.println("Added successfully.");
+                else System.out.println("The word is already existed.");
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return false;
+    }
+
+    public void replaceAWord() {
+        try {
+            System.out.println("Insert a number of English words you want to change, then Enter.");
+            Scanner inp = new Scanner(System.in);
+            int numOfEng = inp.nextInt();
+            for (int i = 0; i < numOfEng; ++i) {
+                boolean continued = false;
+                //print
+                System.out.println("Insert English word you want to change, then Enter.");
+                String oldEng = inp.nextLine();
+                for (Word s : dictionary.getListOfWord()) {
+                    if (oldEng.equalsIgnoreCase(s.getWord_target())) {
+                        //print
+                        System.out.println("New English word here, then Enter.");
+                        String newEng = inp.nextLine();
+                        System.out.println("New Explain here, then Enter.");
+                        String newVie = inp.nextLine();
+                        s.setWord_target(newEng.toLowerCase());
+                        s.setWord_explain(newVie.toLowerCase());
+                        //print
+                        System.out.println("Replace successfully.");
+                        continued = true;
+                        break;
+                    }
+                }
+                if(continued) continue;
+                //print
+                System.out.println("Replace failed. The word you want to change doesn't exist.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void deleteAWord() {
+        try {
+            System.out.println("Insert a number of English words you want to delete, then Enter.");
+            Scanner inp = new Scanner(System.in);
+            int numOfEng = inp.nextInt();
+            for (int i = 0; i < numOfEng; ++i) {
+                //print
+                boolean continued = false;
+                System.out.println("Insert English word you want to delete, then Enter.");
+                String wordToDelete = inp.nextLine();
+                for (Word s : dictionary.getListOfWord()) {
+                    if (wordToDelete.equalsIgnoreCase(s.getWord_target())) {
+                        if (dictionary.remove(s)) {
+                            System.out.println("Delete successfully.");
+                            continued = true;
+                            break;
+                        } else {
+                            System.out.println("Error: Unable to delete.");
+                            continued = true;
+                            break;
+                        }
+                    }
+                }
+                if(continued) continue;
+                //print
+                System.out.println("Delete failed. It's already not existed.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public boolean dictionaryExportToFile() {
         try {
             File file = new File("temp.txt");
-            while (!file.createNewFile() && file.delete()) {
-                file.createNewFile();
-            }
+            if (!(!file.createNewFile() && file.delete() && file.createNewFile())) return false;
         } catch (IOException e) {
             System.out.println("An error occurred while creating a new temporary file.");
             e.printStackTrace();
