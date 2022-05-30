@@ -1,5 +1,5 @@
 # Dictionary
-This is my first OOP Project.
+This is my first OOP Project: An English-Vietnamese dictionary with some basic funtions.
 
 Folder DictionaryProject: Dictionary commandline/console version.
 
